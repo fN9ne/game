@@ -19,3 +19,10 @@ body{
   height: 50px;
   background: rgba(255, 255, 255, .3);
 }
+.burger-menu__button span{
+  width: 30px;
+  height: 2px;
+  posiition: absolute;
+  left: 10px;
+  background: #fff;
+}
