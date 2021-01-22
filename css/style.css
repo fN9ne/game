@@ -27,6 +27,7 @@ body{
   top: 50%;
   transform: translate(0, -50%);
   background: #fff;
+  transition: all 0.3s ease;
 }
 .burger-menu__button:after,
 .burger-menu__button:before{
@@ -35,6 +36,7 @@ body{
   height: 2px;
   position: absolute;
   left: 10px;
+  transition: all 0.3s ease;
   background: #fff;
 }
 .burger-menu__button:after{
@@ -42,4 +44,15 @@ body{
 }
 .burger-menu__button:before{
   bottom: 18px;
+}
+.burger-menu__button.active span{
+  transform: scale(0);
+}
+.burger-menu__button.active:before{
+  bottom: 24px;
+  transform: rotate(45deg);
+}
+.burger-menu__button.active:after{
+  top: 24px;
+  transform: rotate(-45deg);
 }
