@@ -56,3 +56,19 @@ body{
   top: 24px;
   transform: rotate(-45deg);
 }
+.health__bar{
+  width: 300px;
+  height: 30px;
+  background: #111;
+}
+.health__current{
+  width: 100%;
+  height: 100%;
+  background: red;
+}
+.health__count{
+  font-size: 18px;
+  color: #fff;
+  padding: 5px;
+  background: red;
+}
