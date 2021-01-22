@@ -71,3 +71,8 @@ body{
   color: #fff;
   padding: 5px;
 }
+.health{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
