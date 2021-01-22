@@ -45,7 +45,7 @@ body{
 .burger-menu__button:before{
   bottom: 18px;
 }
-.burger-menu__button.active span{
+.burger-menu__button.active div{
   transform: scale(0);
 }
 .burger-menu__button.active:before{
