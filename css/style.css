@@ -22,8 +22,7 @@ body{
 .burger-menu__button div{
   width: 30px;
   height: 2px;
-  posiition: absolute;
-  display: block;
+  position: absolute;
   left: 10px;
   top: 50%;
   transform: translate(0, -50%);
