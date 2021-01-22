@@ -8,9 +8,9 @@ $(document).ready(function() {
    btn.click(function() {
       let ca = Number(chealth.html());
       ca--;
+      ca--;
       chealth.html(ca);
       let hh = 2 / Number($("#max-health")) * Number($(".health__bar").width());
       $(".health__bar").css("width", $(".health__bar").width() - hh);
-      ca--;
    });
 });
