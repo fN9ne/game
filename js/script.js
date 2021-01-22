@@ -7,6 +7,7 @@ $(document).ready(function() {
    let btn = $(".button");
    btn.click(function() {
       let ca = Number(chealth.html());
-      alert(ca);
+      ca--;
+      chealth.html(ca);
    });
 });
