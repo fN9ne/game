@@ -13,8 +13,8 @@ body{
 }
 .burger-menu__button{
   position: fixed;
-  top: 5px;
-  left: 5px;
+  top: 10px;
+  left: 10px;
   width: 50px;
   height: 50px;
   background: rgba(255, 255, 255, .3);
@@ -27,4 +27,19 @@ body{
   top: 50%;
   transform: translate(0, -50%);
   background: #fff;
+}
+.burger-menu__button:after,
+.burger-menu__button:before{
+  content: '';
+  width: 30px;
+  height: 2px;
+  position: absolute;
+  left: 10px;
+  background: #fff;
+}
+.burger-menu__button:after{
+  top: 18px;
+}
+.burger-menu__button:before{
+  bottom: 18px;
 }
