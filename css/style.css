@@ -22,7 +22,8 @@ body{
 .burger-menu__button span{
   width: 30px;
   height: 2px;
-  posiition: relative;
+  posiition: absolute;
+  display: block;
   left: 10px;
   top: 50%;
   transform: translate(0, -50%);
