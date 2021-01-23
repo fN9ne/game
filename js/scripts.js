@@ -360,6 +360,7 @@ $(".null-confirm__yes").click(function() {
 		clearCookie();
 	}
 	if ($(this).hasClass("yes-reload")) {
+		enemy_num = 0;
 		MAX_HEALTH = cnt.attr("data-base");
 		health = MAX_HEALTH;
 		money -= 15;
