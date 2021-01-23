@@ -66,9 +66,9 @@ $(document).ready(function(){
 		$(this).attr("data-num", i);
 	});
 	function newShopItem() {
-		if (getCookie("dpc") == 75) shopTab.eq(1).removeClass("hide");
-		if (getCookie("dpc") == 135) shopTab.eq(2).removeClass("hide");
-		if (getCookie("dpc") == 185) shopTab.eq(3).removeClass("hide");
+		if (getCookie("dpc") >= 75) shopTab.eq(1).removeClass("hide");
+		if (getCookie("dpc") >= 135) shopTab.eq(2).removeClass("hide");
+		if (getCookie("dpc") >= 185) shopTab.eq(3).removeClass("hide");
 	};
 
 	newShopItem();
@@ -100,6 +100,7 @@ $(document).ready(function(){
 		if (money < thisCost) {
 			alert("Не хватает денег");
 		} else {
+			newShopItem();
 			dpc += thisBuff;
 			money -= thisCost;
 			$("#dpc").html(dpc);
@@ -107,7 +108,6 @@ $(document).ready(function(){
 			$("#money").html(money);
 			writeCookie("money", money);
 			k = K / health * dpc;
-			newShopItem();
 		};
 	});
 
