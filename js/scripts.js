@@ -75,6 +75,7 @@ $(document).ready(function(){
 		if (getCookie("dpc") >= 100) shopTab.eq(3).removeClass("hide");
 		if (getCookie("dpc") >= 240) shopTab.eq(4).removeClass("hide");
 		if (getCookie("dpc") >= 375) shopTab.eq(5).removeClass("hide");
+		if (getCookie("dpc") >= 1000) shopTab.eq(6).removeClass("hide");
 		if (getCookie("money") >= 15) $(".reload").removeClass("hide")
 			else {$(".reload").addClass("hide")}
 		};
@@ -144,6 +145,7 @@ $(document).ready(function(){
 			newShopItem();
 		};
 	});
+
 
 	/* глобальные переменные */
 	let health;
@@ -368,6 +370,7 @@ $(".null-confirm__yes").click(function() {
 		money -= moneyK.toFixed();
 		dpcK = dpc / 100 * 40;
 		dpc -= dpcK.toFixed();
+		writeCookie("cEn", enemy_num);
 		writeCookie("dpc", dpc);
 		writeCookie("money", money);
 		writeCookie("mh", MAX_HEALTH);
@@ -391,4 +394,5 @@ $(".null-confirm__area, .null-confirm__no").click(function() {
 function writeCookie(cookieName, cookieValue) {
 	document.cookie = `${cookieName}=${cookieValue};max-age=48004800;`;
 };;
+
 });
