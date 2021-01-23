@@ -87,7 +87,7 @@ $(document).ready(function(){
 		let thisCost = +$(this).find("span[id=dpcCost]").text();
 		let thisBuff = +$(this).find("span[id=dpcBuff]").text();
 		if (money < thisCost) {
-			alert("not enough money")
+			alert("Не хватает денег");
 		} else {
 			dpc += thisBuff;
 			money -= thisCost;
