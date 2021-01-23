@@ -72,10 +72,9 @@ $(document).ready(function(){
 	function newShopItem() {
 		if (getCookie("dpc") >= 10) shopTab.eq(1).removeClass("hide");
 		if (getCookie("dpc") >= 50) shopTab.eq(2).removeClass("hide");
-		if (getCookie("dpc") >= 100) shopTab.eq(3).removeClass("hide");
-		if (getCookie("dpc") >= 240) shopTab.eq(4).removeClass("hide");
-		if (getCookie("dpc") >= 375) shopTab.eq(5).removeClass("hide");
-		if (getCookie("dpc") >= 1000) shopTab.eq(6).removeClass("hide");
+		if (getCookie("dpc") >= 125) shopTab.eq(3).removeClass("hide");
+		if (getCookie("dpc") >= 375) shopTab.eq(4).removeClass("hide");
+		if (getCookie("dpc") >= 1000) shopTab.eq(5).removeClass("hide");
 		if (getCookie("money") >= 15) $(".reload").removeClass("hide")
 			else {$(".reload").addClass("hide")}
 		};
