@@ -120,6 +120,7 @@ $(document).ready(function(){
 		health = currentEnemy.attr("data-health");
 	} else {
 		health = +getCookie("health");
+		console.log("1. "+ health);
 	}
 	if (getCookie("health_bar_progress") < 1) {
 		K = 100;
@@ -180,7 +181,7 @@ $(document).ready(function(){
 
 	/* изменения полоски здоровья */
 	function changeHealth() {
-		console.log(health);
+		console.log("2. "+ health);
 		currentHealth.html(health);
 		maxHealth.html(MAX_HEALTH);
 	};
