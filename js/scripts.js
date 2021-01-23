@@ -178,6 +178,14 @@ $(document).ready(function(){
 		health = +getCookie("health");
 	}
 
+	let stat_money;
+
+	if (getCookie("tc") == -1) {
+		stat_money = 0;
+	} else {
+		stat_money = +getCookie("tc");
+	}
+
 	cnt.attr("data-health", MAX_HEALTH);
 
 	k = K / health * dpc;
@@ -234,7 +242,6 @@ $(document).ready(function(){
 
 	});
 
-
 	function removeOldEnemy() {
 		cnt.attr("data-health", Math.round(cnt.attr("data-health") * 1.075));
 		this_enemy.removeClass("active");
@@ -250,18 +257,23 @@ $(document).ready(function(){
 		writeCookie("cEn", enemy_num);
 		if (cnt.attr("data-health") >= 1000000) {
 			money += 16;
+			stat_money +=16;
 		}
 		else if (cnt.attr("data-health") >= 250000) {
 			money += 8;
+			stat_money +=8;
 		}
 		else if (cnt.attr("data-health") >= 50000) {
 			money += 4;
+			stat_money +=4;
 		}
 		else if (cnt.attr("data-health") >= 5000) {
 			money += 2;
+			stat_money +=2;
 		}
 		if (cnt.attr("data-health") < 5000) {
 			money++;
+			stat_money++;
 		}
 
 		stat_kills++;
@@ -269,6 +281,8 @@ $(document).ready(function(){
 		writeCookie("kills", stat_kills);
 		$("#money").html(money);
 		writeCookie("money", money);
+		$("#tc").html(stat_money);
+		writeCookie("tc", stat_money);
 
 		MAX_HEALTH = cnt.attr("data-health");
 		writeCookie("mh", MAX_HEALTH);
@@ -339,6 +353,7 @@ function clearCookie() {
 	document.cookie = "health=-1;max-age=-1;";
 	document.cookie = "mh=-1;max-age=-1;";
 	document.cookie = "cEn=-1;max-age=-1";
+	document.cookie = "tc=-1;max-age=-1";
 };
 $(".null-confirm__yes").click(function() {
 	if ($(this).hasClass("yes-null")) {

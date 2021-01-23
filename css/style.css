@@ -114,6 +114,16 @@
           transform-origin: left center;
 }
 
+.ver {
+  text-transform: uppercase;
+  color: #fff;
+  letter-spacing: 2px;
+  font-size: 12px;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
+
 .update {
   padding: 0 10px;
   -webkit-transition: 0.3s all ease;
@@ -755,9 +765,19 @@
     padding: 10px;
   }
 
+  .back {
+    left: 10px;
+    bottom: 10px;
+  }
+
   .burger-menu__button {
     top: 10px;
     left: 10px;
+  }
+
+  .ver {
+    right: 10px;
+    bottom: 10px;
   }
 
   .update__content {
@@ -789,5 +809,11 @@
 
   .screen-stats {
     font-size: 14px;
+  }
+
+  .statistic__name {
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 1.2;
   }
 }
