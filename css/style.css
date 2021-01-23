@@ -115,6 +115,7 @@
 }
 
 .update {
+  padding: 0 10px;
   -webkit-transition: 0.3s all ease;
   -o-transition: 0.3s all ease;
   transition: 0.3s all ease;
@@ -757,6 +758,11 @@
   .burger-menu__button {
     top: 10px;
     left: 10px;
+  }
+
+  .update__content {
+    font-size: 14px;
+    line-height: 1;
   }
 
   .menu {
