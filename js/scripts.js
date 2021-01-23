@@ -100,85 +100,40 @@ $(document).ready(function(){
 	});
 
 	/* глобальные переменные */
-	let enemyNum;
 	let health;
 	let K;
-	if (getCookie("current_enemy") == -1) {
-		enemyNum = 0;
-	} else {
-		enemyNum = +getCookie("current_enemy");
-	};
-	let currentEnemy = $(".enemy").eq(enemyNum);
+	let k;
 	let MAX_HEALTH;
-	if (getCookie("max_health") <= 100) {
-		MAX_HEALTH = 100;
+	let enemy = $(".enemy");
+
+	if (getCookie("mh") == -1) {
+		MAX_HEALTH = enemy.attr("data-health");
 	} else {
-		MAX_HEALTH = +getCookie("max_health");
+		MAX_HEALTH = +getCookie("mh");
 	}
-	currentEnemy.attr("data-health", MAX_HEALTH);
-	if (getCookie("health") < 1) {
-		health = currentEnemy.attr("data-health");
+
+	if (getCookie("hbp") < 1) {
+		K = 100;
+	} else {
+		K = +getCookie("hbp");
+	}
+
+	if (getCookie("health") == -1) {
+		health = MAX_HEALTH;
 	} else {
 		health = +getCookie("health");
 	}
-	if (getCookie("health_bar_progress") < 1) {
-		K = 100;
-	} else {
-		K = +getCookie("health_bar_progress");
-	}
-	let k = K / health * dpc;
 
-	/* статистика */
-	let stat_kills;
-	let stat_damage;
-	if (getCookie("kills") == -1) {
-		stat_kills = 0;
-	} else {
-		stat_kills = +getCookie("kills");
-	}
-	$("#kills").html(stat_kills);
-	if (getCookie("total_damage") == -1) {
-		stat_damage = 0;
-	} else {
-		stat_damage = +getCookie("total_damage");
-	}
-	$("#total_damage").html(stat_damage);
+	enemy.attr("data-health", MAX_HEALTH);
 
-	statDamageRound();
-	function statDamageRound() {
-		let total_damage_num = +$("#total_damage").html();
-		if (total_damage_num > 1000000) {
-			$("#total_damage").addClass("million");
-			let eq = total_damage_num/1000000;
-			$("#total_damage").html(Math.round(eq*100)/100);
-		}
-		if (total_damage_num > 1000000000) {
-			$("#total_damage").addClass("billion");
-			let eq = total_damage_num/1000000000;
-			$("#total_damage").html(Math.round(eq*100)/100);
-		}
-		if (total_damage_num > 1000000000000) {
-			$("#total_damage").addClass("trillion");
-			let eq = total_damage_num/1000000000000;
-			$("#total_damage").html(Math.round(eq*100)/100);
-		}
-	};
+	k = K / health * dpc;
 
-	/* постоянные */
+	/* константы */
 	const healthBar = $(".health__current");
 	const maxHealth = $("#max_health");
 	const currentHealth = $("#current_health");
-	const enemy = $(".enemy");
 
-	currentHealth.html(health);
-	currentEnemy.addClass("active");
-
-	/* добавление порядкового номера для "Боссов" */
-	enemy.each(function(i) {
-		$(this).attr("data-num", i);
-	});
-
-	/* изменения полоски здоровья */
+	/* functions */
 	function changeHealth() {
 		currentHealth.html(health);
 		maxHealth.html(MAX_HEALTH);
@@ -187,93 +142,125 @@ $(document).ready(function(){
 		healthBar.attr("data-health", K);
 		healthBar.css("width", K + "%");
 	};
+
+	/* операции */
+	enemy.addClass("active");
 	changeHealth();
 	changeHealthBar();
 
-	/* нанесение урона "Боссу" */
+	/* атака */
 	enemy.click(function(e) {
+
 		if (currentHealth.html() != 0) {
 			K -= k;
+			K = Math.round(K * 1000) / 1000;
+			if (K < 0) K = 0;
+			writeCookie("hbp", K);
 			health -= dpc;
-			writeCookie("health_bar_progress", K);
 			writeCookie("health", health);
 			stat_damage += +dpc;
-			writeCookie("total_damage", stat_damage);
 			$("#total_damage").html(stat_damage);
+			writeCookie("td", stat_damage);
 			statDamageRound();
 			changeHealthBar();
 			changeHealth();
+
 			$(".minus-hp").remove();
 			$(this).append(`<span class="minus-hp">-${dpc}</span>`)
-			let posX = e.offsetX,
-			posY = e.offsetY;
+			let posX = e.offsetX;
+			let posY = e.offsetY;
 			$(".minus-hp").css({"top": posY,"left": posX});
 		};
-		if (currentHealth.html() == 0) {
-			currentEnemy.addClass("defeat");
-			setTimeout(removeOldEnemy, 1000);
-		};
-		if (currentHealth.html() < 0) {
-			currentEnemy.addClass("defeat");
+
+		if (currentHealth.html() <= 0) {
+			enemy.addClass("defeat");
 			setTimeout(removeOldEnemy, 1000);
 			currentHealth.html(0);
 		};
+
 	});
+
 	function removeOldEnemy() {
-		let enemyQty = enemy.length;
-		currentEnemy.removeClass("active");
-		currentEnemy.removeClass("defeat");
-		enemyNum++;
-		writeCookie("current_enemy", enemyNum);
-		if (enemyNum == enemyQty) {
-			enemyNum = -1;
-			removeOldEnemy();
-			return false;
-		}
-		let hpUp = MAX_HEALTH * 1.05;
-		currentEnemy.attr("data-health", hpUp.toFixed());
-		currentEnemy = $(".enemy").eq(enemyNum);
-		writeCookie("max_health", hpUp.toFixed());
+		enemy.removeClass("defeat");
+
+		enemy.attr("data-health", Math.round(enemy.attr("data-health") * 1.1));
+
+		MAX_HEALTH = enemy.attr("data-health");
+		writeCookie("mh", MAX_HEALTH);
+		health = MAX_HEALTH;
+		writeCookie("health", health);
 		K = 100;
 		k = K / health * dpc;
-		MAX_HEALTH = health;
 		changeHealth();
 		changeHealthBar();
-		currentEnemy.addClass("active");
 		stat_kills++;
+		money++;
 		$("#kills").html(stat_kills);
 		writeCookie("kills", stat_kills);
-		money++;
 		$("#money").html(money);
 		writeCookie("money", money);
 	};
 
+	/* статистика */
+	let stat_kills;
+let stat_damage;
+if (getCookie("kills") == -1) {
+	stat_kills = 0;
+} else {
+	stat_kills = +getCookie("kills");
+}
+$("#kills").html(stat_kills);
+if (getCookie("td") == -1) {
+	stat_damage = 0;
+} else {
+	stat_damage = +getCookie("td");
+}
+$("#total_damage").html(stat_damage);
+statDamageRound();
+function statDamageRound() {
+	let total_damage_num = +$("#total_damage").html();
+	if (total_damage_num > 1000000) {
+		$("#total_damage").addClass("million");
+		let eq = total_damage_num/1000000;
+		$("#total_damage").html(Math.round(eq*100)/100);
+	}
+	if (total_damage_num > 1000000000) {
+		$("#total_damage").addClass("billion");
+		let eq = total_damage_num/1000000000;
+		$("#total_damage").html(Math.round(eq*100)/100);
+	}
+	if (total_damage_num > 1000000000000) {
+		$("#total_damage").addClass("trillion");
+		let eq = total_damage_num/1000000000000;
+		$("#total_damage").html(Math.round(eq*100)/100);
+	}
+};;
+
 	/* очистка */
 	$(".tab[data-link=null]").click(function() {
-		$(".null-confirm").addClass('active');
-		$(".null-confirm__video").removeClass("hide");
-		$(".null-confirm__video")[0].play();
-		$(".null-confirm__sure").addClass("hide");
-	});
-	$(".null-confirm__video").on("ended", function() {
-		$(this).addClass("hide");
-		$(".null-confirm__sure").removeClass("hide");
-	});
-	$(".null-confirm__video")[0].volume = 0.4;
-	$(".null-confirm__yes").click(function() {
-		document.cookie = "dpc=-1;max-age=-1;";
-		document.cookie = "money=-1;max-age=-1;";
-		document.cookie = "total_damage=-1;max-age=-1;";
-		document.cookie = "kills=-1;max-age=-1;";
-		document.cookie = "current_enemy=-1;max-age=-1;";
-		document.cookie = "health_bar_progress=-1;max-age=-1;";
-		document.cookie = "health=-1;max-age=-1;";
-		document.cookie = "max_health=-1;max-age=-1;";
-	});
-	$(".null-confirm__area, .null-confirm__no").click(function() {
-		$(".null-confirm").removeClass('active');
-		$(".null-confirm__video")[0].pause();
-	});
+	$(".null-confirm").addClass('active');
+	$(".null-confirm__video").removeClass("hide");
+	$(".null-confirm__video")[0].play();
+	$(".null-confirm__sure").addClass("hide");
+});
+$(".null-confirm__video").on("ended", function() {
+	$(this).addClass("hide");
+	$(".null-confirm__sure").removeClass("hide");
+});
+$(".null-confirm__video")[0].volume = 0.4;
+$(".null-confirm__yes").click(function() {
+	document.cookie = "dpc=-1;max-age=-1;";
+	document.cookie = "money=-1;max-age=-1;";
+	document.cookie = "td=-1;max-age=-1;";
+	document.cookie = "kills=-1;max-age=-1;";
+	document.cookie = "hbp=-1;max-age=-1;";
+	document.cookie = "health=-1;max-age=-1;";
+	document.cookie = "mh=-1;max-age=-1;";
+});
+$(".null-confirm__area, .null-confirm__no").click(function() {
+	$(".null-confirm").removeClass('active');
+	$(".null-confirm__video")[0].pause();
+});;
 
 	/* подключение функций */
 	function getCookie(name) {
