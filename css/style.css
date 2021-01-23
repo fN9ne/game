@@ -668,7 +668,7 @@
   position: absolute;
   -webkit-animation: minus-hp 0.6s ease forwards;
           animation: minus-hp 0.6s ease forwards;
-  font-size: 20px;
+  font-size: 50px;
   color: #ff3332;
   font-weight: bold;
   -webkit-user-select: none;
