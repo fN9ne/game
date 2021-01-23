@@ -129,7 +129,24 @@
   background: rgba(40, 46, 51, 0.7);
 }
 
+.shop-menu__tab.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+#dpcCost:after {
+  content: "\e904";
+  font-weight: 300;
+  font-size: 14px;
+  margin: 0 0 0 5px;
+}
+
+#dpcCost:before {
+  display: none;
+}
+
 .icon:before {
+  font-weight: 300;
   font-size: 14px;
   margin: 0 5px 0 0;
 }

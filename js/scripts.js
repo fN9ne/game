@@ -61,6 +61,17 @@ $(document).ready(function(){
 		if ($(".menu.active").length === 0) closeBurger();
 	});
 
+	let shopTab = $(".shop-menu__tab");
+	shopTab.each(function(i) {
+		$(this).attr("data-num", i);
+	});
+	function newShopItem() {
+		if (getCookie("dpc") == 75) shopTab.eq(1).removeClass("hide");
+		if (getCookie("dpc") == 115) shopTab.eq(2).removeClass("hide");
+	};
+
+	newShopItem();
+
 	let money;
 	let dpc;
 
@@ -81,7 +92,6 @@ $(document).ready(function(){
 	$("#dpc").html(dpc);
 
 
-
 	/* покупка dpc */
 	$(".dpc").click(function() {
 		let thisCost = +$(this).find("span[id=dpcCost]").text();
@@ -96,6 +106,7 @@ $(document).ready(function(){
 			$("#money").html(money);
 			writeCookie("money", money);
 			k = K / health * dpc;
+			newShopItem();
 		};
 	});
 
