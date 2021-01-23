@@ -183,7 +183,7 @@ $(document).ready(function(){
 	function removeOldEnemy() {
 		enemy.removeClass("defeat");
 
-		enemy.attr("data-health", Math.round(enemy.attr("data-health") * 1.1));
+		enemy.attr("data-health", Math.round(enemy.attr("data-health") * 1.05));
 
 		MAX_HEALTH = enemy.attr("data-health");
 		writeCookie("mh", MAX_HEALTH);
