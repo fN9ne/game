@@ -61,6 +61,10 @@ $(document).ready(function(){
 		if ($(".menu.active").length === 0) closeBurger();
 	});
 
+	if (getCookie("max_health") > -1) {
+		document.cookie = "max_health=-1;max-age=-1;";
+	}
+
 	let shopTab = $(".shop-menu__tab");
 	shopTab.each(function(i) {
 		$(this).attr("data-num", i);
