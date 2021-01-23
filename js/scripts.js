@@ -120,7 +120,7 @@ $(document).ready(function(){
 		health = currentEnemy.attr("data-health");
 	} else {
 		health = +getCookie("health");
-		console.log("1. "+ health);
+		console.log("при выгрузке куки "+ health);
 	}
 	if (getCookie("health_bar_progress") < 1) {
 		K = 100;
@@ -181,7 +181,7 @@ $(document).ready(function(){
 
 	/* изменения полоски здоровья */
 	function changeHealth() {
-		console.log("2. "+ health);
+		console.log("при установке в качестве текущ здоровья "+ health);
 		currentHealth.html(health);
 		maxHealth.html(MAX_HEALTH);
 	};
@@ -197,8 +197,11 @@ $(document).ready(function(){
 		if (currentHealth.html() != 0) {
 			K -= k;
 			health -= dpc;
+			console.log("после уменьшения " + health);
 			writeCookie("health_bar_progress", K);
 			writeCookie("health", health);
+			console.log("после записывания в куки " + health);
+			console.log("результат куки" + getCookie("health"));
 			stat_damage += +dpc;
 			writeCookie("total_damage", stat_damage);
 			$("#total_damage").html(stat_damage);
@@ -236,7 +239,6 @@ $(document).ready(function(){
 		currentEnemy.attr("data-health", hpUp.toFixed());
 		currentEnemy = $(".enemy").eq(enemyNum);
 		writeCookie("max_health", hpUp.toFixed());
-		health = currentEnemy.attr("data-health");
 		K = 100;
 		k = K / health * dpc;
 		MAX_HEALTH = health;
