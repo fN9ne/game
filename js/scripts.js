@@ -81,6 +81,19 @@ $(document).ready(function(){
 
 	newShopItem();
 
+
+	/*updates*/
+	if (getCookie("update") == -1) {
+		$(".update").addClass("active");
+	} else {
+		$(".update").removeClass("active");
+	}
+	$(".update__btn").click(function() {
+		document.cookie = "update=1;max-age=48004800;"
+		clearCookie();
+	});
+
+
 	let money;
 	let dpc;
 
@@ -317,15 +330,19 @@ function statDamageRound() {
 	$(".null-confirm__yes").removeClass("yes-reload");
 	$(".null-confirm__sure").removeClass("hide");
 });
+function clearCookie() {
+	document.cookie = "dpc=-1;max-age=-1;";
+	document.cookie = "money=-1;max-age=-1;";
+	document.cookie = "td=-1;max-age=-1;";
+	document.cookie = "kills=-1;max-age=-1;";
+	document.cookie = "hbp=-1;max-age=-1;";
+	document.cookie = "health=-1;max-age=-1;";
+	document.cookie = "mh=-1;max-age=-1;";
+	document.cookie = "cEn=-1;max-age=-1";
+};
 $(".null-confirm__yes").click(function() {
 	if ($(this).hasClass("yes-null")) {
-		document.cookie = "dpc=-1;max-age=-1;";
-		document.cookie = "money=-1;max-age=-1;";
-		document.cookie = "td=-1;max-age=-1;";
-		document.cookie = "kills=-1;max-age=-1;";
-		document.cookie = "hbp=-1;max-age=-1;";
-		document.cookie = "health=-1;max-age=-1;";
-		document.cookie = "mh=-1;max-age=-1;";
+		clearCookie();
 	}
 	if ($(this).hasClass("yes-reload")) {
 		MAX_HEALTH = cnt.attr("data-base");
