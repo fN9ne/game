@@ -104,7 +104,6 @@ $(document).ready(function(){
 		if (money < thisCost) {
 			alert("Не хватает денег");
 		} else {
-			newShopItem();
 			dpc += thisBuff;
 			money -= thisCost;
 			$("#dpc").html(dpc);
@@ -112,6 +111,7 @@ $(document).ready(function(){
 			$("#money").html(money);
 			writeCookie("money", money);
 			k = K / health * dpc;
+			newShopItem();
 		};
 	});
 
