@@ -70,10 +70,14 @@ $(document).ready(function(){
 		$(this).attr("data-num", i);
 	});
 	function newShopItem() {
-		if (getCookie("dpc") >= 75) shopTab.eq(1).removeClass("hide");
-		if (getCookie("dpc") >= 135) shopTab.eq(2).removeClass("hide");
-		if (getCookie("dpc") >= 185) shopTab.eq(3).removeClass("hide");
-	};
+		if (getCookie("dpc") >= 10) shopTab.eq(1).removeClass("hide");
+		if (getCookie("dpc") >= 50) shopTab.eq(2).removeClass("hide");
+		if (getCookie("dpc") >= 100) shopTab.eq(3).removeClass("hide");
+		if (getCookie("dpc") >= 240) shopTab.eq(4).removeClass("hide");
+		if (getCookie("dpc") >= 375) shopTab.eq(5).removeClass("hide");
+		if (getCookie("money") >= 15) $(".reload").removeClass("hide")
+			else {$(".reload").addClass("hide")}
+		};
 
 	newShopItem();
 
@@ -98,14 +102,27 @@ $(document).ready(function(){
 
 
 	/* покупка dpc */
-	$(".dpc").click(function() {
+	$(".dpc").click(function(e) {
 		let thisCost = +$(this).find("span[id=dpcCost]").text();
 		let thisBuff = +$(this).find("span[id=dpcBuff]").text();
 		if (money < thisCost) {
-			alert("Не хватает денег");
+			$(this).addClass("not-enough");
+			$(this).append(`<span class="not-enough__elipse"></span>`);
+			let posX = e.offsetX;
+			let posY = e.offsetY;
+			$(".not-enough__elipse").css({"top": posY, "left": posX});
+			setTimeout(() => {
+				$(".not-enough__elipse").remove();
+				$(this).removeClass("not-enough");
+			}, 1000)
 		} else {
-			dpc += thisBuff;
-			money -= thisCost;
+			if ($(this).hasClass("mult")) {
+				dpc *= 2;
+				money -= thisCost;
+			} else {
+				dpc += thisBuff;
+				money -= thisCost;
+			}
 			$("#dpc").html(dpc);
 			writeCookie("dpc", dpc);
 			$("#money").html(money);
@@ -120,10 +137,18 @@ $(document).ready(function(){
 	let K;
 	let k;
 	let MAX_HEALTH;
+	let enemy_num;
+	let cnt = $(".content");
+	if (getCookie("cEn") == -1) {
+		enemy_num = 0;
+	} else {
+		enemy_num = +getCookie("cEn");
+	}
 	let enemy = $(".enemy");
+	let this_enemy = enemy.eq(enemy_num);
 
 	if (getCookie("mh") == -1) {
-		MAX_HEALTH = enemy.attr("data-health");
+		MAX_HEALTH = cnt.attr("data-health");
 	} else {
 		MAX_HEALTH = +getCookie("mh");
 	}
@@ -140,7 +165,7 @@ $(document).ready(function(){
 		health = +getCookie("health");
 	}
 
-	enemy.attr("data-health", MAX_HEALTH);
+	cnt.attr("data-health", MAX_HEALTH);
 
 	k = K / health * dpc;
 
@@ -160,7 +185,7 @@ $(document).ready(function(){
 	};
 
 	/* операции */
-	enemy.addClass("active");
+	this_enemy.addClass("active");
 	changeHealth();
 	changeHealthBar();
 
@@ -189,19 +214,50 @@ $(document).ready(function(){
 		};
 
 		if (currentHealth.html() <= 0) {
-			enemy.addClass("defeat");
+			this_enemy.addClass("defeat");
 			setTimeout(removeOldEnemy, 1000);
 			currentHealth.html(0);
 		};
 
 	});
 
+
 	function removeOldEnemy() {
-		enemy.removeClass("defeat");
+		cnt.attr("data-health", Math.round(cnt.attr("data-health") * 1.075));
+		this_enemy.removeClass("active");
+		this_enemy.removeClass("defeat");
+		enemy_num++;
+		if (enemy_num == enemy.length) {
+			enemy_num = -1;
+			removeOldEnemy();
+			return false;
+		}
+		this_enemy = enemy.eq(enemy_num);
+		this_enemy.addClass("active");
+		writeCookie("cEn", enemy_num);
+		if (cnt.attr("data-health") >= 1000000) {
+			money += 16;
+		}
+		else if (cnt.attr("data-health") >= 250000) {
+			money += 8;
+		}
+		else if (cnt.attr("data-health") >= 50000) {
+			money += 4;
+		}
+		else if (cnt.attr("data-health") >= 5000) {
+			money += 2;
+		}
+		if (cnt.attr("data-health") < 5000) {
+			money++;
+		}
 
-		enemy.attr("data-health", Math.round(enemy.attr("data-health") * 1.05));
+		stat_kills++;
+		$("#kills").html(stat_kills);
+		writeCookie("kills", stat_kills);
+		$("#money").html(money);
+		writeCookie("money", money);
 
-		MAX_HEALTH = enemy.attr("data-health");
+		MAX_HEALTH = cnt.attr("data-health");
 		writeCookie("mh", MAX_HEALTH);
 		health = MAX_HEALTH;
 		writeCookie("health", health);
@@ -209,13 +265,15 @@ $(document).ready(function(){
 		k = K / health * dpc;
 		changeHealth();
 		changeHealthBar();
-		stat_kills++;
-		money++;
-		$("#kills").html(stat_kills);
-		writeCookie("kills", stat_kills);
-		$("#money").html(money);
-		writeCookie("money", money);
+		newShopItem();
 	};
+
+	$(".reload").click(function() {
+		$(".null-confirm").addClass('active');
+		$(".null-confirm__sure").removeClass("hide");
+		$(".null-confirm__yes").removeClass("yes-null");
+		$(".null-confirm__yes").addClass("yes-reload");
+	});
 
 	/* статистика */
 	let stat_kills;
@@ -255,27 +313,36 @@ function statDamageRound() {
 	/* очистка */
 	$(".tab[data-link=null]").click(function() {
 	$(".null-confirm").addClass('active');
-	$(".null-confirm__video").removeClass("hide");
-	$(".null-confirm__video")[0].play();
-	$(".null-confirm__sure").addClass("hide");
-});
-$(".null-confirm__video").on("ended", function() {
-	$(this).addClass("hide");
+	$(".null-confirm__yes").addClass("yes-null");
+	$(".null-confirm__yes").removeClass("yes-reload");
 	$(".null-confirm__sure").removeClass("hide");
 });
-$(".null-confirm__video")[0].volume = 0.4;
 $(".null-confirm__yes").click(function() {
-	document.cookie = "dpc=-1;max-age=-1;";
-	document.cookie = "money=-1;max-age=-1;";
-	document.cookie = "td=-1;max-age=-1;";
-	document.cookie = "kills=-1;max-age=-1;";
-	document.cookie = "hbp=-1;max-age=-1;";
-	document.cookie = "health=-1;max-age=-1;";
-	document.cookie = "mh=-1;max-age=-1;";
+	if ($(this).hasClass("yes-null")) {
+		document.cookie = "dpc=-1;max-age=-1;";
+		document.cookie = "money=-1;max-age=-1;";
+		document.cookie = "td=-1;max-age=-1;";
+		document.cookie = "kills=-1;max-age=-1;";
+		document.cookie = "hbp=-1;max-age=-1;";
+		document.cookie = "health=-1;max-age=-1;";
+		document.cookie = "mh=-1;max-age=-1;";
+	}
+	if ($(this).hasClass("yes-reload")) {
+		MAX_HEALTH = cnt.attr("data-base");
+		health = MAX_HEALTH;
+		money -= 15;
+		moneyK = money / 100 * 30;
+		money -= moneyK.toFixed();
+		dpcK = dpc / 100 * 40;
+		dpc -= dpcK.toFixed();
+		writeCookie("dpc", dpc);
+		writeCookie("money", money);
+		writeCookie("mh", MAX_HEALTH);
+		writeCookie("health", health);
+	}
 });
 $(".null-confirm__area, .null-confirm__no").click(function() {
 	$(".null-confirm").removeClass('active');
-	$(".null-confirm__video")[0].pause();
 });;
 
 	/* подключение функций */

@@ -145,12 +145,14 @@
 }
 
 .menu__list {
+  overflow: auto;
   padding: 10px;
   width: 100%;
   background: rgba(40, 46, 51, 0.7);
 }
 
 .shop-menu__tab.hide {
+  display: none;
   opacity: 0;
   visibility: hidden;
 }
@@ -197,7 +199,14 @@
   margin: 0 5px 0 0;
 }
 
+.tab__buff {
+  position: relative;
+  z-index: 1;
+}
+
 .tab__cost {
+  position: relative;
+  z-index: 1;
   font-weight: bold;
   background: #FF3332;
   padding: 5px;
@@ -281,6 +290,76 @@
   margin: 0 5px 0 0;
 }
 
+.not-enough {
+  overflow: hidden;
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
+}
+
+.not-enough__elipse {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+  position: relative;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  border-radius: 50%;
+  width: 60px;
+  z-index: 0;
+  height: 60px;
+  background: #ff3332;
+  display: block;
+  -webkit-animation: elipse 1s ease forwards;
+          animation: elipse 1s ease forwards;
+}
+
+@-webkit-keyframes elipse {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.2;
+    visibility: hidden;
+  }
+
+  50% {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    width: 1300px;
+    height: 1300px;
+  }
+}
+
+@keyframes elipse {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.2;
+    visibility: hidden;
+  }
+
+  50% {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    width: 1300px;
+    height: 1300px;
+  }
+}
+
 .content {
   width: 100%;
   display: -webkit-box;
@@ -343,7 +422,7 @@
       -ms-user-select: none;
           user-select: none;
   display: none;
-  max-width: 350px;
+  max-width: 500px;
   width: 100%;
 }
 
@@ -360,9 +439,6 @@
 .enemy img {
   width: 100%;
   pointer-events: none;
-  -webkit-transition: 0.1s linear;
-  -o-transition: 0.1s linear;
-  transition: 0.1s linear;
 }
 
 .enemy:active img {
