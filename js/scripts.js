@@ -180,6 +180,7 @@ $(document).ready(function(){
 
 	/* изменения полоски здоровья */
 	function changeHealth() {
+		console.log(health);
 		currentHealth.html(health);
 		maxHealth.html(MAX_HEALTH);
 	};
