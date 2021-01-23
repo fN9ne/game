@@ -393,6 +393,7 @@
 }
 
 .null-confirm__sure.hide {
+  position: absolute;
   opacity: 0;
   visibility: hidden;
 }

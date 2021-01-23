@@ -170,6 +170,7 @@ $(document).ready(function(){
 	const currentHealth = $("#current_health");
 	const enemy = $(".enemy");
 
+	currentHealth.html(health);
 	currentEnemy.addClass("active");
 
 	/* добавление порядкового номера для "Боссов" */
