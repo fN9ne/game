@@ -67,7 +67,8 @@ $(document).ready(function(){
 	});
 	function newShopItem() {
 		if (getCookie("dpc") == 75) shopTab.eq(1).removeClass("hide");
-		if (getCookie("dpc") == 115) shopTab.eq(2).removeClass("hide");
+		if (getCookie("dpc") == 135) shopTab.eq(2).removeClass("hide");
+		if (getCookie("dpc") == 185) shopTab.eq(2).removeClass("hide");
 	};
 
 	newShopItem();
