@@ -21,6 +21,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-back:before {
+  content: "\e907";
+}
+
 .icon-info:before {
   content: "\e906";
 }
